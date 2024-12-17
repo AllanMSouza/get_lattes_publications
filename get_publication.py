@@ -5,6 +5,16 @@ import os
 from optparse import OptionParser
 
 def get_conference_papers(filename, until_year=2019):
+    """
+    Extracts conference papers from the specified XML file.
+
+    Parameters:
+    filename (str): The name of the XML file (without the .xml extension) located in the data directory.
+    until_year (int, optional): The cutoff year for including papers. Papers published before this year will be excluded. Default is 2019.
+
+    Returns:
+    list: A list of dictionaries, each containing information about a conference paper.
+    """
     soup       = bs4.BeautifulSoup(open(f'data/{filename}.xml'), 'lxml')
     production = soup.find('producao-bibliografica')
     papers     = []
@@ -39,6 +49,16 @@ def get_conference_papers(filename, until_year=2019):
     return papers
 
 def get_journal_papers(filename, until_year):
+    """
+    Extracts journal papers from the specified XML file.
+
+    Parameters:
+    filename (str): The name of the XML file (without the .xml extension) located in the data directory.
+    until_year (int): The cutoff year for including papers. Papers published before this year will be excluded.
+
+    Returns:
+    list: A list of dictionaries, each containing information about a journal paper.
+    """
     
     soup    = bs4.BeautifulSoup(open(f'data/{filename}.xml'), 'lxml')
     production = soup.find('producao-bibliografica')
@@ -75,6 +95,12 @@ def get_journal_papers(filename, until_year):
     return papers
 
 def print_papers(papers):
+    """
+    Prints the formatted information of the given papers.
+
+    Parameters:
+    papers (list): A list of dictionaries, each containing information about a paper.
+    """
     for paper in papers:
         
         authors  = paper['autores']     
@@ -91,6 +117,14 @@ def print_papers(papers):
         print(text)
         
 def main():
+    """
+    Main function that parses command-line options, generates the XML file using an external command,
+    and prints the extracted conference and journal papers.
+
+    Command-line Options:
+    --cpf (str): The CPF (Cadastro de Pessoas Físicas) number used to generate the XML file.
+    --from (int): The cutoff year for including papers.
+    """
 
     parser = OptionParser()
     
